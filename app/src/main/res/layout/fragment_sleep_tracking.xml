@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.gallery.SleepTrackingFragment">
+    tools:context=".ui.sleep_tracking_timer.SleepTrackingFragment">
 
     <TextView
         android:id="@+id/time_view"
@@ -29,7 +29,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:onClick="onClickStart"
         android:text="@string/start"
         app:layout_constraintBottom_toTopOf="@+id/reset_button"
         app:layout_constraintEnd_toStartOf="@+id/stop_button"
@@ -44,7 +43,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:onClick="onClickStop"
         android:text="@string/stop"
         app:layout_constraintBottom_toTopOf="@+id/reset_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,9 +57,25 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="32dp"
-        android:onClick="onClickReset"
         android:text="@string/reset"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/save"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:icon="@android:drawable/ic_menu_upload"
+        app:layout_constraintBottom_toTopOf="@+id/stop_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
