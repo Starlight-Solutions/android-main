@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 public class ExampleTimerTest {
     @Test
     public void useAppContext() {
+        // this will be the base of the prototype unittest for the timer
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.example.sleep_application", appContext.getPackageName());
