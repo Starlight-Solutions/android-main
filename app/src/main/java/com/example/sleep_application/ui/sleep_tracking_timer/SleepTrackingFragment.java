@@ -30,6 +30,8 @@ public class SleepTrackingFragment extends Fragment {
 
     // Is the stopwatch running?
     private boolean running;
+    public boolean getRunning() {return running;}
+
 
     private boolean wasRunning;
 
