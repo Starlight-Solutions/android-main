@@ -27,6 +27,7 @@ public class SleepTrackingFragment extends Fragment {
     // Number of seconds displayed
     // on the stopwatch.
     private int seconds = 0;
+    public int getSeconds() {return seconds;}
 
     // Is the stopwatch running?
     private boolean running;

@@ -25,22 +25,38 @@ public class SleepTrackingFragmentTest {
 
     @Before
     public void setUp() throws Exception {
+        // open fragment in testing container
         scenario = FragmentScenario.launchInContainer(SleepTrackingFragment.class);
     }
 
     @Test
-    public void testButtonOnClick(){
+    public void testTimerButtonOnClickStatesChanges(){
 
         scenario.onFragment(fragment -> {
+            //refer to ui elements in fragments
             Button buttonTimerStart = fragment.requireView().findViewById(R.id.start_button);
             Button buttonTimerStop = fragment.requireView().findViewById(R.id.stop_button);
             Button buttonTimerReset = fragment.requireView().findViewById(R.id.reset_button);
 
             // test if the button are clicking or not
-            buttonTimerStart.performClick();
-            assertTrue(fragment.getRunning());
-        });
 
+            buttonTimerStop.performClick();     // false -> false
+            assertFalse(fragment.getRunning());
+
+            buttonTimerStart.performClick();    // false -> true
+            assertTrue(fragment.getRunning());
+
+            buttonTimerStart.performClick();    // true -> true
+            assertTrue(fragment.getRunning());
+
+            buttonTimerStop.performClick();     // true -> false
+            assertFalse(fragment.getRunning());
+
+            buttonTimerReset.performClick();
+            assertFalse(fragment.getRunning());                 // false -> false
+            assertEquals(0, fragment.getSeconds());     // seconds reset to 0
+
+        });
 
     }
 

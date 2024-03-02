@@ -1,0 +1,30 @@
+Unit test standard and guidelines
+
+1. Source Code Separation
+   - Keep test classes separate from the main source code.
+	For logic related test, place them in the "app\src\test\java\com\example\sleep_application" (test) directory.
+	For UI interaction behaviour test, place them in the "app\src\androidTest\java\com\example\sleep_application" (androidTest) directory.
+   - This separation ensures that test code doesn't accidentally run in the production environment.
+
+2. Package Naming Convention:
+   - Match the package of the test class with the package of the source class.
+
+3. Test Case Naming:
+   - Choose descriptive and meaningful test names.
+   - A test name should convey the action being tested and the expected outcome.
+   - Avoid vague names, be detail with expected result.
+
+4. Test Behavior and Expectations:
+   - Focus on testing the behavior of individual units of code.
+   - Verify whether the expected output of a method matches the actual one.
+   - Check if function calls made inside the method occur the desired number of times.
+   - Avoid testing code that is not part of the method under test.
+
+
+To auto generate unit test template in Android Studio
+
+1. Right click on the method/class you want to test
+2. Select Generate -> Test.
+3. Make sure the generated test file is in the correct folder.
+4. Import correct Unit test library, refer to SleepTrackingFragmentTest.java file.
+5. Setup fragment for testing, write logic for testing.
