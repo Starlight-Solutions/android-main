@@ -22,4 +22,10 @@
         android:name="com.example.sleep_application.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.example.sleep_application.ui.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" />
 </navigation>
