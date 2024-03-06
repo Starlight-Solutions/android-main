@@ -1,16 +1,15 @@
 package com.example.sleep_application.database;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
-public class LocalSqlDbService extends Service {
-    public LocalSqlDbService() {
-    }
+import com.example.sleep_application.database.dao.SleepDao;
+import com.example.sleep_application.database.entity.SleepEntity;
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+@Database(entities = {SleepEntity.class}, version = 1)
+@TypeConverters({Converters.class})
+public abstract class LocalSqlDbService extends RoomDatabase {
+    public abstract SleepDao sleepDao();
+
 }

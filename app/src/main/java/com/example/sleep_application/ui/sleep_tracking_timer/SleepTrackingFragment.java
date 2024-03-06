@@ -11,11 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
+import com.example.sleep_application.database.LocalSqlDbService;
+import com.example.sleep_application.database.entity.SleepEntity;
 import com.example.sleep_application.databinding.FragmentSleepTrackingBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -36,6 +41,8 @@ public class SleepTrackingFragment extends Fragment {
     private long stopTime = Instant.now().getEpochSecond();
 
     private FragmentSleepTrackingBinding binding;
+
+    LocalSqlDbService dbService;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -81,6 +88,10 @@ public class SleepTrackingFragment extends Fragment {
         binding.saveBtn.setOnClickListener(this::onClickSave);
 
         runTimer();
+
+        dbService = Room.databaseBuilder(requireActivity().getApplicationContext(), LocalSqlDbService.class, "appDb")
+                .allowMainThreadQueries().build();
+
         return root;
     }
 
@@ -103,7 +114,13 @@ public class SleepTrackingFragment extends Fragment {
     public void onClickSave(View view) {
         sleepTimes.add(seconds);
         seconds = 0;
+
+        SleepEntity sleepEntity = new SleepEntity(LocalDate.now(), LocalTime.now(), seconds);
+
+        dbService.sleepDao().insertAll(sleepEntity);
+
         Snackbar.make(view, new StringBuffer("Sleep Saved"), Snackbar.LENGTH_SHORT).show();
+
         view.setVisibility(View.INVISIBLE);
     }
 
