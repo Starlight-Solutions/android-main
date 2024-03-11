@@ -24,12 +24,13 @@ public class MusicFragment extends Fragment {
     private FragmentMusicBinding binding;
     private MediaPlayer mediaPlayer;
 
+    // value for tracking the current track in track list
     private Integer currentMusicNumber = 0;
     final private int minMusicNumber = 0;
     final private int maxMusicNumber = 6;
-
     List<Integer> musicList = new ArrayList<>();
 
+    //setText needs a variable to work
     private String currentTrack = "Current Track: ";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -76,7 +77,7 @@ public class MusicFragment extends Fragment {
 
     public void onClickPrevious(View view) {
         mediaPlayer.stop();
-        if (currentMusicNumber > minMusicNumber) {
+        if (currentMusicNumber > minMusicNumber) {  // cant go below min amount of track
             currentMusicNumber--;
         }
         binding.textMusic.setText(currentMusicNumber.toString());
@@ -85,7 +86,7 @@ public class MusicFragment extends Fragment {
 
     public void onClickNext(View view) {
         mediaPlayer.stop();
-        if (currentMusicNumber < maxMusicNumber) {
+        if (currentMusicNumber < maxMusicNumber) { // cant go beyond max amount of track
             currentMusicNumber++;
         }
         binding.textMusic.setText(currentMusicNumber.toString());
@@ -93,6 +94,7 @@ public class MusicFragment extends Fragment {
     }
 
     private void musicListSetup() {
+        // add music to track list to choose from
         musicList.add(R.raw.m00);
         musicList.add(R.raw.m01);
         musicList.add(R.raw.m02);
