@@ -49,13 +49,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         drawer.addDrawerListener(this);
     }
 
-    @Override
-    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
-    }
+    @Override   // for interface
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {    }
 
     @Override
     public void onDrawerOpened(@NonNull View drawerView) {
+        // set current user
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         View headerView = binding.navView.getHeaderView(0);
         TextView headerUsername = (TextView) headerView.findViewById(R.id.menu_username);
@@ -64,21 +63,16 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         headerEmail.setText(sharedPref.getString("login_email", "No email"));
     }
 
-    @Override
-    public void onDrawerClosed(@NonNull View drawerView) {
+    @Override // for interface
+    public void onDrawerClosed(@NonNull View drawerView) {    }
 
-    }
-
-    @Override
-    public void onDrawerStateChanged(int newState) {
-
-    }
+    @Override // for interface
+    public void onDrawerStateChanged(int newState) {    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        Log.d("MainActivity", "MenuCreated");
         return true;
     }
 

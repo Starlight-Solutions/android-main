@@ -12,17 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.room.Room;
 
-import com.example.sleep_application.R;
 import com.example.sleep_application.database.LocalSqlDbService;
 import com.example.sleep_application.database.entity.UserEntity;
 import com.example.sleep_application.databinding.FragmentLoginBinding;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-
-import com.example.sleep_application.MainActivity;
 
 public class LoginFragment extends Fragment {
 
@@ -43,78 +38,72 @@ public class LoginFragment extends Fragment {
         loginViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         binding.loginButton.setOnClickListener(this::onClickLogin);
-        binding.newAccButton.setOnClickListener(this::onClockNewAcc);
+        binding.newAccButton.setOnClickListener(this::onClickNewAcc);
 
         dbService = Room.databaseBuilder(requireActivity().getApplicationContext(), LocalSqlDbService.class, "appUserDb")
                 .allowMainThreadQueries().build();
-
 
         return root;
     }
 
     public void onClickLogin(View view) {
+
+        // log current user in DB for debugging
         Log.d("LoginFragment", dbService.userDao().getAll().toString());
 
         String username = binding.inputUsername.getText().toString();
         String email = binding.inputEmail.getText().toString();
-        if (username.matches("\\w+") && email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+
+        if (profileConditionCheck(username, email)) {
             // if the database have email record
             if (dbService.userDao().findPrimaryKeyExists(email) && dbService.userDao().findUser(email).getUsername().equals(username)) {
 
-                // login
+                // set logged in user as current user
                 SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
-
                 editor.putString("login_username", username);
                 editor.putString("login_email", email);
                 editor.apply();
                 Snackbar.make(view, new StringBuffer("Login Success!"), Snackbar.LENGTH_SHORT).show();
-
-                Log.d("LoginFragment - username", sharedPref.getString("login_username", "Not logged in"));
-                Log.d("LoginFragment - email", sharedPref.getString("login_email", "No email"));
-
             } else {
                 Snackbar.make(view, new StringBuffer("Username and Email does not match."), Snackbar.LENGTH_SHORT).show();
             }
-
         }
-
     }
 
-
-    public void onClockNewAcc(View view) {
+    public void onClickNewAcc(View view) {
         String username = binding.inputUsername.getText().toString();
         String email = binding.inputEmail.getText().toString();
 
         // user name must not be empty and email must be in format
-        if (username.matches("\\w+") && email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-
-            // email must not exist in database
+        if (this.profileConditionCheck(username, email)) {
+            // and email must not exist in database -> create new acc, else do nothing
             if (!dbService.userDao().findPrimaryKeyExists(email)){
-                // create new acc
+
+                // create new user into DB
                 UserEntity userEntity = new UserEntity(username, email);
                 dbService.userDao().insertAll(userEntity);
                 Snackbar.make(view, new StringBuffer("User created."), Snackbar.LENGTH_SHORT).show();
 
+                // put created user into sharedPref
                 SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
-
                 editor.putString("login_username", username);
                 editor.putString("login_email", email);
                 editor.apply();
 
-                Log.d("LoginFragment - username", sharedPref.getString("login_username", "Not logged in"));
-                Log.d("LoginFragment - email", sharedPref.getString("login_email", "No email"));
-
             } else {
                 Snackbar.make(view, new StringBuffer("Email already Exist. Please Login."), Snackbar.LENGTH_SHORT).show();
             }
-
-            Log.d("LoginFragment", dbService.userDao().getAll().toString());
-
         } else {
+            // failed input format
             Snackbar.make(view, new StringBuffer("Invalid Email."), Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    private Boolean profileConditionCheck(String username, String email) {
+        //regex checking
+        return username.matches("\\w+") && email.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     }
 
     @Override

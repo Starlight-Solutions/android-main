@@ -60,7 +60,7 @@ public class SleepEntity {
 
     @Override
     @NotNull
-    public String toString() {
+    public String toString() { // currently for checking record existence, change if needed
         return this.email + " | " + this.duration;
     }
 

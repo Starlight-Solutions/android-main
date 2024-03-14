@@ -118,16 +118,16 @@ public class SleepTrackingFragment extends Fragment {
         sleepTimes.add(seconds);
         seconds = 0;
 
-        // TODO : condition to check not logged in
+        // TODO : condition to check not logged in?
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         String email = sharedPref.getString("login_email", "No email");
 
         SleepEntity sleepEntity = new SleepEntity(email, LocalDate.now(), LocalTime.now(), seconds);
-        Log.d("STF", sleepEntity.toString());
+        Log.d("SleepEntity", sleepEntity.toString());
         dbService.sleepDao().insertAll(sleepEntity);
 
         Snackbar.make(view, new StringBuffer("Sleep Saved"), Snackbar.LENGTH_SHORT).show();
-        Log.d("STF", dbService.sleepDao().getAll().toString());
+        Log.d("SleepEntityDB", dbService.sleepDao().getAll().toString());
         view.setVisibility(View.INVISIBLE);
     }
 
