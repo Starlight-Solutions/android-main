@@ -17,6 +17,9 @@ public interface UserDao {
     @Query("SELECT count(*) != 0 FROM userentity AS p WHERE p.email = :email")
     boolean findPrimaryKeyExists(String email);
 
+    @Query("SELECT username, email FROM userentity AS p WHERE p.email = :email")
+    UserEntity findUser(String email);
+
     @Insert
     void insertAll(UserEntity... userEntities);
 

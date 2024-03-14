@@ -1,7 +1,9 @@
 package com.example.sleep_application.database.entity;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -10,6 +12,11 @@ import java.time.LocalTime;
 
 @Entity(primaryKeys = {"date", "finishTime"})
 public class SleepEntity {
+
+    @NotNull
+    @ColumnInfo(name = "email")
+    public String email;
+
     @NotNull
     LocalDate date;
 
@@ -18,7 +25,8 @@ public class SleepEntity {
 
     long duration;
 
-    public SleepEntity(@NotNull LocalDate date, @NotNull LocalTime finishTime, long duration) {
+    public SleepEntity(@NotNull String email, @NotNull LocalDate date, @NotNull LocalTime finishTime, long duration) {
+        this.email = email;
         this.date = date;
         this.finishTime = finishTime;
         this.duration = duration;
@@ -49,4 +57,11 @@ public class SleepEntity {
     public void setDuration(long duration) {
         this.duration = duration;
     }
+
+    @Override
+    @NotNull
+    public String toString() {
+        return this.email + " | " + this.duration;
+    }
+
 }
