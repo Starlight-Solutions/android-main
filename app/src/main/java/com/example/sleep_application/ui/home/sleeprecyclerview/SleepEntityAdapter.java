@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sleep_application.R;
 import com.example.sleep_application.database.entity.SleepEntity;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class SleepEntityAdapter extends RecyclerView.Adapter<SleepEntityAdapter.ViewHolder> {
@@ -42,7 +43,8 @@ public class SleepEntityAdapter extends RecyclerView.Adapter<SleepEntityAdapter.
         Log.println(Log.DEBUG, "test", String.valueOf(sleep.getDuration()));
 
         holder.durationTv.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
-        holder.endTimeTv.setText(sleep.getFinishTime().toString());
+        holder.endTimeTv.setText(sleep.getFinishTime().truncatedTo(ChronoUnit.SECONDS).toString());
+        holder.startTimeTv.setText(sleep.getFinishTime().minus(totalSecs, ChronoUnit.SECONDS).truncatedTo(ChronoUnit.SECONDS).toString());
         holder.dateTv.setText(sleep.getDate().toString());
 
     }

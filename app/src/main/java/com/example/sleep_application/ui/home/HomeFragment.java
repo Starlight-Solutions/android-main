@@ -17,6 +17,7 @@ import com.example.sleep_application.databinding.FragmentHomeBinding;
 import com.example.sleep_application.ui.home.sleeprecyclerview.SleepEntityAdapter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class HomeFragment extends Fragment {
 
@@ -36,6 +37,9 @@ public class HomeFragment extends Fragment {
                 .allowMainThreadQueries().build();
 
         ArrayList<SleepEntity> sleepData = new ArrayList<>(dbService.sleepDao().getAll());
+
+        sleepData.sort(Comparator.comparing(SleepEntity::getDate).thenComparing(SleepEntity::getFinishTime).reversed());
+
 
         SleepEntityAdapter sleepEntityAdapter = new SleepEntityAdapter(sleepData, this.getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
