@@ -10,7 +10,7 @@ public class SleepTrackingViewModel extends ViewModel {
 
     public SleepTrackingViewModel() {
         timerText = new MutableLiveData<>();
-        timerText.setValue("This is gallery fragment");
+        timerText.setValue("0:00:00");
     }
 
     public LiveData<String> getText() {

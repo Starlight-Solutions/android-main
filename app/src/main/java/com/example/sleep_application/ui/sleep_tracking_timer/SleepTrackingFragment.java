@@ -192,19 +192,21 @@ public class SleepTrackingFragment extends Fragment {
     }
 
     private void refreshTimer() {
-        int hours = seconds / 3600;
-        int minutes = (seconds % 3600) / 60;
-        int secs = seconds % 60;
+        if (binding != null) {
+            int hours = seconds / 3600;
+            int minutes = (seconds % 3600) / 60;
+            int secs = seconds % 60;
 
-        // Format the seconds into hours, minutes,
-        // and seconds.
-        String time
-                = String
-                .format(Locale.getDefault(),
-                        "%d:%02d:%02d", hours,
-                        minutes, secs);
+            // Format the seconds into hours, minutes,
+            // and seconds.
+            String time
+                    = String
+                    .format(Locale.getDefault(),
+                            "%d:%02d:%02d", hours,
+                            minutes, secs);
 
-        binding.timeView.setText(time);
+            binding.timeView.setText(time);
+        }
     }
 
     @Override
