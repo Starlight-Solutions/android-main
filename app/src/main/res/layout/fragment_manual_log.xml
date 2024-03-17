@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.manual_log.ManualLogFragment">
 
+
     <TextView
         android:id="@+id/text_manual_log"
         android:layout_width="match_parent"
@@ -20,95 +21,129 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias="0.028" />
 
-    <EditText
-        android:id="@+id/manual_log_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="110dp"
-        android:ems="10"
-        android:hint="Insert Log Name"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_manual_log" />
-
-    <TextView
-        android:id="@+id/manual_log_start_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="93dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="108dp"
-        android:layout_marginBottom="43dp"
-        android:ems="10"
-        android:hint="@string/insert_start_time"
-        android:inputType="time"
-        app:layout_constraintBottom_toTopOf="@+id/manual_log_end_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manual_log_name" />
-
-    <TextView
-        android:id="@+id/manual_log_end_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="32dp"
-        android:ems="10"
-        android:hint="@string/insert_end_time"
-        android:inputType="time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manual_log_start_time" />
-
-    <Button
-        android:id="@+id/manual_log_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="143dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="174dp"
-        android:layout_marginBottom="87dp"
-        android:text="@string/select_time"
-        app:layout_constraintBottom_toTopOf="@+id/manual_log_end_time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manual_log_start_time" />
-
-    <Button
-        android:id="@+id/manual_log_end"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="182dp"
-        android:layout_marginBottom="56dp"
-        android:text="@string/select_time"
+    <ScrollView
+        android:layout_width="418dp"
+        android:layout_height="630dp"
+        android:layout_marginTop="98dp"
+        android:layout_marginBottom="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manual_log_end_time" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/manual_log_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="440dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="27dp"
-        android:text="@string/save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/manual_log_end"
-        app:layout_constraintTop_toBottomOf="@+id/manual_log_name" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/manual_log_name"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="92dp"
+                android:layout_marginEnd="110dp"
+                android:layout_marginTop="32dp"
+                android:ems="10"
+                android:hint="Insert Log Name"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_manual_log" />
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/manual_log_start_time"
+                android:layout_width="214dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="93dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="108dp"
+                android:layout_marginBottom="43dp"
+                android:ems="10"
+                android:hint="@string/insert_start_time"
+                android:inputType="time"
+                app:layout_constraintBottom_toTopOf="@+id/manual_log_end_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/manual_log_name" />
+
+            <Button
+                android:id="@+id/manual_log_start"
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="174dp"
+                android:layout_marginBottom="87dp"
+                android:text="@string/select_time"
+                app:layout_constraintBottom_toTopOf="@+id/manual_log_end_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/manual_log_start_time" />
+
+            <TextView
+                android:id="@+id/manual_log_end_time"
+                android:gravity="center"
+                android:layout_width="204dp"
+                android:layout_height="53dp"
+                android:layout_marginStart="96dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="105dp"
+                android:layout_marginBottom="32dp"
+                android:ems="10"
+                android:hint="@string/insert_end_time"
+                android:inputType="time"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/manual_log_start_time" />
+
+            <Button
+                android:id="@+id/manual_log_end"
+                android:layout_width="193dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="182dp"
+                android:layout_marginBottom="56dp"
+                android:text="@string/select_time"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/manual_log_end_time" />
+
+            <EditText
+                android:id="@+id/manual_log_others"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="92dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="110dp"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="Insert Other Details"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/manual_log_save"
+                android:layout_width="328dp"
+                android:layout_height="99dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="150dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="27dp"
+                android:text="@string/save"
+                android:textSize="25sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/manual_log_end"
+                app:layout_constraintTop_toBottomOf="@+id/manual_log_name" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

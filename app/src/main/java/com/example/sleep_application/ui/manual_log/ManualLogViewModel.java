@@ -10,7 +10,7 @@ public class ManualLogViewModel extends ViewModel {
 
     public ManualLogViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is manual log fragment");
+        mText.setValue("MANUAL LOGGING");
     }
 
     public LiveData<String> getText() {
