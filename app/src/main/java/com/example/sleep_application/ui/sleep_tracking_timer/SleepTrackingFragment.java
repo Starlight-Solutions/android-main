@@ -24,13 +24,9 @@ import com.google.android.material.snackbar.Snackbar;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class SleepTrackingFragment extends Fragment {
-
-    List<Integer> sleepTimes = new ArrayList<>();
 
     // Number of seconds displayed
     // on the stopwatch.
@@ -115,8 +111,6 @@ public class SleepTrackingFragment extends Fragment {
     }
 
     public void onClickSave(View view) {
-        sleepTimes.add(seconds);
-        seconds = 0;
 
         // TODO : condition to check not logged in?
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -127,6 +121,9 @@ public class SleepTrackingFragment extends Fragment {
         dbService.sleepDao().insertAll(sleepEntity);
 
         Snackbar.make(view, new StringBuffer("Sleep Saved"), Snackbar.LENGTH_SHORT).show();
+
+        seconds = 0;
+
         Log.d("SleepEntityDB", dbService.sleepDao().getAll().toString());
         view.setVisibility(View.INVISIBLE);
     }
@@ -199,19 +196,21 @@ public class SleepTrackingFragment extends Fragment {
     }
 
     private void refreshTimer() {
-        int hours = seconds / 3600;
-        int minutes = (seconds % 3600) / 60;
-        int secs = seconds % 60;
+        if (binding != null) {
+            int hours = seconds / 3600;
+            int minutes = (seconds % 3600) / 60;
+            int secs = seconds % 60;
 
-        // Format the seconds into hours, minutes,
-        // and seconds.
-        String time
-                = String
-                .format(Locale.getDefault(),
-                        "%d:%02d:%02d", hours,
-                        minutes, secs);
+            // Format the seconds into hours, minutes,
+            // and seconds.
+            String time
+                    = String
+                    .format(Locale.getDefault(),
+                            "%d:%02d:%02d", hours,
+                            minutes, secs);
 
-        binding.timeView.setText(time);
+            binding.timeView.setText(time);
+        }
     }
 
     @Override

@@ -27,5 +27,10 @@
     <string name="music_stop">Stop</string>
     <string name="music_previous">Previous</string>
     <string name="music_next">Next</string>
+    <string name="sleep_log">Sleep Log</string>
+    <string name="start_time">Start Time</string>
+    <string name="empty_time">00:00:00</string>
+    <string name="duration">Duration</string>
+    <string name="end_time">End Time</string>
 
 </resources>
