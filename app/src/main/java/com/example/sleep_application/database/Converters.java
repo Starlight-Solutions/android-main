@@ -2,10 +2,12 @@ package com.example.sleep_application.database;
 
 import androidx.room.TypeConverter;
 
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Converters {
+
     @TypeConverter
     public static LocalDate LocalDateFromString(String value) {
         return value == null ? null : LocalDate.parse(value);
