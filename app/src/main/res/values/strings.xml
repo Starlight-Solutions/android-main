@@ -18,6 +18,10 @@
     <string name="reset">Reset</string>
     <string name="save">Save</string>
 
+    <string name="login_username">Username</string>
+    <string name="login_email">Email</string>
+    <string name="login_new">Create New Account</string>
+  
     <string name="music_play">Play</string>
     <string name="music_pause">Pause</string>
     <string name="music_stop">Stop</string>
