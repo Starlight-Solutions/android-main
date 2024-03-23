@@ -2,9 +2,12 @@ package com.example.sleep_application;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    boolean isNightModeOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,36 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        if (item.getTitle().equals(getString(R.string.action_change_theme))) {
+            Toast.makeText(getApplicationContext(), "Change Theme", Toast.LENGTH_SHORT).show();
+
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+                isNightModeOn = false;
+            }
+            else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                isNightModeOn = true;
+            }
+            else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+
+            if(isNightModeOn){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                isNightModeOn = false;
+            }
+            else{
+                AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+                isNightModeOn = true;
+            }
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
