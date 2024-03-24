@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items to the action bar if it is present
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -54,31 +54,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
-        if (item.getTitle().equals(getString(R.string.action_change_theme))) {
-            Toast.makeText(getApplicationContext(), "Change Theme", Toast.LENGTH_SHORT).show();
+        switch(item.getItemId()){
 
-            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
-                isNightModeOn = false;
-            }
-            else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                isNightModeOn = true;
-            }
-            else{
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }
-
-            if(isNightModeOn){
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                isNightModeOn = false;
-            }
-            else{
-                AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
-                isNightModeOn = true;
-            }
+            case R.id.action_switch_theme:
+                Toast.makeText(getApplicationContext(), "Change Theme", Toast.LENGTH_SHORT).show();
+                switchTheme();
+                break;
+            case R.id.action_settings:
+                Toast.makeText(getApplicationContext(), "Settings Selected", Toast.LENGTH_SHORT).show();
+                break;
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void switchTheme() {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            isNightModeOn = false;
+        } else if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            isNightModeOn = true;
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
+        if (isNightModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            isNightModeOn = false;
+
+        } else {
+            AppCompatDelegate.setDefaultNightMode((AppCompatDelegate.MODE_NIGHT_YES));
+            isNightModeOn = true;
+        }
     }
 
     @Override
