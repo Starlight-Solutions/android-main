@@ -14,6 +14,9 @@ public interface SleepDao {
     @Query("SELECT * FROM sleepentity")
     List<SleepEntity> getAll();
 
+    @Query("SELECT * FROM sleepentity where email = :email")
+    List<SleepEntity> getAllByUser(String email);
+
     @Insert
     void insertAll(SleepEntity... sleepEntities);
 

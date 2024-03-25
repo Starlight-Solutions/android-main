@@ -1,5 +1,7 @@
 package com.example.sleep_application.ui.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +38,11 @@ public class HomeFragment extends Fragment {
         LocalSqlDbService dbService = Room.databaseBuilder(requireActivity().getApplicationContext(), LocalSqlDbService.class, "appDb")
                 .allowMainThreadQueries().build();
 
-        ArrayList<SleepEntity> sleepData = new ArrayList<>(dbService.sleepDao().getAll());
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String email = sharedPref.getString("login_email", "No email");
+
+        ArrayList<SleepEntity> sleepData = new ArrayList<>(dbService.sleepDao().getAllByUser(email));
 
         sleepData.sort(Comparator.comparing(SleepEntity::getDate).thenComparing(SleepEntity::getFinishTime).reversed());
 
