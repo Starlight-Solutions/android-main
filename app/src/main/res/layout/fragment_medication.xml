@@ -45,7 +45,7 @@
                 android:layout_weight="1" />
 
             <EditText
-                android:id="@+id/editTextNumber12"
+                android:id="@+id/input_mins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -58,6 +58,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="mins" />
+
+            <Button
+                android:id="@+id/med_reset_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Set" />
         </LinearLayout>
 
         <LinearLayout
@@ -79,12 +86,6 @@
                 android:layout_weight="1"
                 android:text="Pause" />
 
-            <Button
-                android:id="@+id/med_stop_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Stop" />
         </LinearLayout>
 
 

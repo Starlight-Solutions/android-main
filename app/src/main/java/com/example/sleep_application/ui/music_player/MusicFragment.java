@@ -28,7 +28,7 @@ public class MusicFragment extends Fragment {
     private Integer currentMusicNumber = 0;
     final private int minMusicNumber = 0;
     final private int maxMusicNumber = 6;
-    List<Integer> musicList = new ArrayList<>();
+    private List<Integer> musicList = new ArrayList<>();
 
     //setText needs a variable to work
     private String currentTrack = "Current Track: ";
