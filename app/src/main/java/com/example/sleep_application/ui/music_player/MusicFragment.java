@@ -83,6 +83,8 @@ public class MusicFragment extends Fragment {
 
     public void onClickStop(View view) {
         mediaPlayer.stop();
+        isPlaying = false;
+        updateButtons();
         binding.textMusic.setText("Stopped");
     }
 
