@@ -29,6 +29,8 @@ public class MusicFragment extends Fragment {
 
     private FragmentMusicBinding binding;
     private MediaPlayer mediaPlayer;
+    private BackgroundMusicService backgroundMusicService;
+    private boolean isBound = false;
 
     // value for tracking the current track in track list
     private Integer currentMusicNumber = 0;
@@ -40,6 +42,21 @@ public class MusicFragment extends Fragment {
     //setText needs a variable to work
     private String currentTrack = "Current Track: ";
 
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            BackgroundMusicService.BackgroundMusicBinder binder = (BackgroundMusicService.BackgroundMusicBinder) service;
+            backgroundMusicService = binder.getService();
+            isBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            backgroundMusicService = null;
+            isBound = false;
+        }
+    };
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MusicViewModel loginViewModel = new ViewModelProvider(this).get(MusicViewModel.class);
@@ -49,6 +66,10 @@ public class MusicFragment extends Fragment {
 
         TextView textView = binding.textMusic;
         loginViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+
+        getActivity().bindService(new Intent(getActivity(), BackgroundMusicService.class), serviceConnection, Context.BIND_AUTO_CREATE);
+
 
         musicListSetup();
 
@@ -64,8 +85,8 @@ public class MusicFragment extends Fragment {
     }
 
     public void onClickPlay(View view) {
-        if ( !mediaPlayer.isPlaying() ) {
-            mediaPlayer.start();
+        if ( backgroundMusicService != null ) {
+            backgroundMusicService.playSong();
             isPlaying = true;
             updateButtons();
             binding.textMusic.setText(currentTrack.concat(currentMusicNumber.toString()));
@@ -82,10 +103,12 @@ public class MusicFragment extends Fragment {
     }
 
     public void onClickStop(View view) {
-        mediaPlayer.stop();
-        isPlaying = false;
-        updateButtons();
-        binding.textMusic.setText("Stopped");
+        if ( backgroundMusicService != null ) {
+            backgroundMusicService.pauseSong();
+            isPlaying = false;
+            updateButtons();
+            binding.textMusic.setText("Stopped");
+        }
     }
 
 
@@ -129,8 +152,8 @@ public class MusicFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mediaPlayer != null) {
-            mediaPlayer.release();
+        if (isBound) {
+            getActivity().unbindService(serviceConnection);
         }
     }
 }

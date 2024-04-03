@@ -24,19 +24,52 @@ import com.example.sleep_application.MainActivity;
 import com.example.sleep_application.R;
 import com.google.android.material.snackbar.Snackbar;
 
-public class BackgroundMusicService extends Service {
+public class BackgroundMusicService extends Service implements MediaPlayer.OnCompletionListener  {
 
     private static final String CHANNEL_ID = "bg_channel_id";
     private static final String CHANNEL_NAME = "BG_Channel_Name";
     private static final int IMPORTANCE = NotificationManager.IMPORTANCE_DEFAULT;
     private static final int NOTIFICATION_ID = 123456;
     private MediaPlayer mediaPlayer;
+    private boolean isBound;
 
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new BackgroundMusicBinder();
+    }
+
+    public class BackgroundMusicBinder extends Binder {
+        public BackgroundMusicService getService() {
+            return BackgroundMusicService.this;
+        }
+    }
+
+
+    public void playSong() {
+        mediaPlayer.start();
+    }
+
+    public void pauseSong() {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+    }
+
+    public void resumeSong() {
+        if (!mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
+    }
+
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        // Handle song completion (e.g., play next song)
     }
 
 
@@ -46,19 +79,20 @@ public class BackgroundMusicService extends Service {
         createNotificationChannel();
     }
 
-    private void createNotificationChannel() {
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("BG_Service", "Service started.");
         showNotification("BG_Service", "Service started.");
         mediaPlayer = MediaPlayer.create(this, R.raw.m06);
+        mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.start();
         return START_NOT_STICKY;
+    }
+
+    private void createNotificationChannel() {
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 
     private void showNotification(String title, String message) {
@@ -75,13 +109,19 @@ public class BackgroundMusicService extends Service {
 
     public void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     public void onTaskRemoved(Intent intent) {
         super.onTaskRemoved(intent);
         showNotification("BG_Service", "Task removed.");
-        mediaPlayer.release();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
 }
