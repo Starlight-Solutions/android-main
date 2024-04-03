@@ -30,6 +30,8 @@ public class BackgroundMusicService extends Service {
     private static final String CHANNEL_NAME = "BG_Channel_Name";
     private static final int IMPORTANCE = NotificationManager.IMPORTANCE_DEFAULT;
     private static final int NOTIFICATION_ID = 123456;
+    private MediaPlayer mediaPlayer;
+
 
     @Nullable
     @Override
@@ -53,7 +55,9 @@ public class BackgroundMusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("BG_Service", "Service started.");
-        showNotification("BG_Service", "Service Started.");
+        showNotification("BG_Service", "Service started.");
+        mediaPlayer = MediaPlayer.create(this, R.raw.m06);
+        mediaPlayer.start();
         return START_NOT_STICKY;
     }
 
@@ -69,6 +73,15 @@ public class BackgroundMusicService extends Service {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
+    public void onDestroy() {
+        super.onDestroy();
+        mediaPlayer.release();
+    }
 
+    public void onTaskRemoved(Intent intent) {
+        super.onTaskRemoved(intent);
+        showNotification("BG_Service", "Task removed.");
+        mediaPlayer.release();
+    }
 
 }
