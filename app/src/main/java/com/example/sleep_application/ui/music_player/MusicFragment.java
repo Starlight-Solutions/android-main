@@ -2,17 +2,23 @@ package com.example.sleep_application.ui.music_player;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.sleep_application.MainActivity;
 import com.example.sleep_application.R;
 import com.example.sleep_application.databinding.FragmentMusicBinding;
 
@@ -29,6 +35,7 @@ public class MusicFragment extends Fragment {
     final private int minMusicNumber = 0;
     final private int maxMusicNumber = 6;
     List<Integer> musicList = new ArrayList<>();
+    private boolean isPlaying = false;
 
     //setText needs a variable to work
     private String currentTrack = "Current Track: ";
@@ -45,10 +52,11 @@ public class MusicFragment extends Fragment {
 
         musicListSetup();
 
+        updateButtons();
+
         binding.playBtn.setOnClickListener(this::onClickPlay);
         binding.stopBtn.setOnClickListener(this::onClickStop);
         binding.pauseBtn.setOnClickListener(this::onClickPause);
-
         binding.previousBtn.setOnClickListener(this::onClickPrevious);
         binding.nextBtn.setOnClickListener(this::onClickNext);
 
@@ -58,6 +66,8 @@ public class MusicFragment extends Fragment {
     public void onClickPlay(View view) {
         if ( !mediaPlayer.isPlaying() ) {
             mediaPlayer.start();
+            isPlaying = true;
+            updateButtons();
             binding.textMusic.setText(currentTrack.concat(currentMusicNumber.toString()));
         }
     }
@@ -65,6 +75,8 @@ public class MusicFragment extends Fragment {
     public void onClickPause(View view) {
         if ( mediaPlayer.isPlaying() ) {
             mediaPlayer.pause();
+            isPlaying = false;
+            updateButtons();
             binding.textMusic.setText("Paused");
         }
     }
@@ -107,6 +119,10 @@ public class MusicFragment extends Fragment {
         mediaPlayer = MediaPlayer.create(getActivity(), musicList.get(currentMusicNumber));
     }
 
+    private void updateButtons() {
+        binding.playBtn.setEnabled(!isPlaying);
+        binding.stopBtn.setEnabled(isPlaying);
+    }
 
     @Override
     public void onDestroy() {
