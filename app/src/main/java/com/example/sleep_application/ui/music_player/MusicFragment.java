@@ -28,15 +28,9 @@ import java.util.List;
 public class MusicFragment extends Fragment {
 
     private FragmentMusicBinding binding;
-    private MediaPlayer mediaPlayer;
     private BackgroundMusicService backgroundMusicService;
     private boolean isBound = false;
 
-    // value for tracking the current track in track list
-    private Integer currentMusicNumber = 0;
-    final private int minMusicNumber = 0;
-    final private int maxMusicNumber = 6;
-    List<Integer> musicList = new ArrayList<>();
     private boolean isPlaying = false;
 
     //setText needs a variable to work
@@ -70,10 +64,7 @@ public class MusicFragment extends Fragment {
 
         getActivity().bindService(new Intent(getActivity(), BackgroundMusicService.class), serviceConnection, Context.BIND_AUTO_CREATE);
 
-
-        musicListSetup();
-
-        updateButtons();
+        //updateButtons();
 
         binding.playBtn.setOnClickListener(this::onClickPlay);
         binding.stopBtn.setOnClickListener(this::onClickStop);
@@ -87,62 +78,39 @@ public class MusicFragment extends Fragment {
     public void onClickPlay(View view) {
         if ( backgroundMusicService != null ) {
             backgroundMusicService.playSong();
-            isPlaying = true;
-            updateButtons();
-            binding.textMusic.setText(currentTrack.concat(currentMusicNumber.toString()));
+            binding.textMusic.setText(currentTrack.concat(Integer.toString(backgroundMusicService.getCurrentSong())));
         }
     }
 
     public void onClickPause(View view) {
-        if ( mediaPlayer.isPlaying() ) {
-            mediaPlayer.pause();
-            isPlaying = false;
-            updateButtons();
+        if ( backgroundMusicService != null ) {
+            backgroundMusicService.pauseSong();
             binding.textMusic.setText("Paused");
         }
     }
 
     public void onClickStop(View view) {
         if ( backgroundMusicService != null ) {
-            backgroundMusicService.pauseSong();
-            isPlaying = false;
-            updateButtons();
+            backgroundMusicService.stopSong();
             binding.textMusic.setText("Stopped");
         }
     }
 
 
     public void onClickPrevious(View view) {
-        mediaPlayer.stop();
-        if (currentMusicNumber > minMusicNumber) {  // cant go below min amount of track
-            currentMusicNumber--;
+        if ( backgroundMusicService != null ) {
+            backgroundMusicService.previousSong();
+            binding.textMusic.setText(Integer.toString(backgroundMusicService.getCurrentSong()));
         }
-        binding.textMusic.setText(currentMusicNumber.toString());
-        mediaPlayer = MediaPlayer.create(getActivity(), musicList.get(currentMusicNumber));
     }
 
     public void onClickNext(View view) {
-        mediaPlayer.stop();
-        if (currentMusicNumber < maxMusicNumber) { // cant go beyond max amount of track
-            currentMusicNumber++;
+        if ( backgroundMusicService != null ) {
+            backgroundMusicService.nextSong();
+            binding.textMusic.setText(Integer.toString(backgroundMusicService.getCurrentSong()));
         }
-        binding.textMusic.setText(currentMusicNumber.toString());
-        mediaPlayer = MediaPlayer.create(getActivity(), musicList.get(currentMusicNumber));
     }
 
-    private void musicListSetup() {
-        // add music to track list to choose from
-        musicList.add(R.raw.m00);
-        musicList.add(R.raw.m01);
-        musicList.add(R.raw.m02);
-        musicList.add(R.raw.m03);
-        musicList.add(R.raw.m04);
-        musicList.add(R.raw.m05);
-        musicList.add(R.raw.m06);
-
-        // Initialize MediaPlayer with an audio file
-        mediaPlayer = MediaPlayer.create(getActivity(), musicList.get(currentMusicNumber));
-    }
 
     private void updateButtons() {
         binding.playBtn.setEnabled(!isPlaying);

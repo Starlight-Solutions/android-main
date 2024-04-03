@@ -24,6 +24,9 @@ import com.example.sleep_application.MainActivity;
 import com.example.sleep_application.R;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BackgroundMusicService extends Service implements MediaPlayer.OnCompletionListener  {
 
     private static final String CHANNEL_ID = "bg_channel_id";
@@ -31,7 +34,12 @@ public class BackgroundMusicService extends Service implements MediaPlayer.OnCom
     private static final int IMPORTANCE = NotificationManager.IMPORTANCE_DEFAULT;
     private static final int NOTIFICATION_ID = 123456;
     private MediaPlayer mediaPlayer;
-    private boolean isBound;
+
+    // value for tracking the current track in track list
+    private Integer currentMusicNumber = 0;
+    final private int minMusicNumber = 0;
+    final private int maxMusicNumber = 6;
+    List<Integer> musicList = new ArrayList<>();
 
 
     @Nullable
@@ -48,7 +56,9 @@ public class BackgroundMusicService extends Service implements MediaPlayer.OnCom
 
 
     public void playSong() {
-        mediaPlayer.start();
+        if (!mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
     }
 
     public void pauseSong() {
@@ -57,14 +67,33 @@ public class BackgroundMusicService extends Service implements MediaPlayer.OnCom
         }
     }
 
-    public void resumeSong() {
-        if (!mediaPlayer.isPlaying()) {
-            mediaPlayer.start();
+    public void stopSong() {
+        mediaPlayer.stop();
+        mediaPlayer = MediaPlayer.create(this, musicList.get(currentMusicNumber));
+    }
+
+    public void previousSong() {
+        mediaPlayer.stop();
+        if (currentMusicNumber > minMusicNumber) {  // cant go below min amount of track
+            currentMusicNumber--;
         }
+        mediaPlayer = MediaPlayer.create(this, musicList.get(currentMusicNumber));
+    }
+
+    public void nextSong() {
+        mediaPlayer.stop();
+        if (currentMusicNumber < maxMusicNumber) { // cant go beyond max amount of track
+            currentMusicNumber++;
+        }
+        mediaPlayer = MediaPlayer.create(this, musicList.get(currentMusicNumber));
     }
 
     public boolean isPlaying() {
         return mediaPlayer.isPlaying();
+    }
+
+    public int getCurrentSong() {
+        return currentMusicNumber;
     }
 
     @Override
@@ -83,9 +112,18 @@ public class BackgroundMusicService extends Service implements MediaPlayer.OnCom
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("BG_Service", "Service started.");
         showNotification("BG_Service", "Service started.");
-        mediaPlayer = MediaPlayer.create(this, R.raw.m06);
+
+        // add music to track list to choose from
+        musicList.add(R.raw.m00);
+        musicList.add(R.raw.m01);
+        musicList.add(R.raw.m02);
+        musicList.add(R.raw.m03);
+        musicList.add(R.raw.m04);
+        musicList.add(R.raw.m05);
+        musicList.add(R.raw.m06);
+        mediaPlayer = MediaPlayer.create(this, musicList.get(currentMusicNumber));
         mediaPlayer.setOnCompletionListener(this);
-        mediaPlayer.start();
+
         return START_NOT_STICKY;
     }
 
