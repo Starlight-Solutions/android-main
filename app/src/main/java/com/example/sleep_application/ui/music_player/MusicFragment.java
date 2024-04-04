@@ -16,6 +16,7 @@ import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.sleep_application.MainActivity;
@@ -31,11 +32,10 @@ public class MusicFragment extends Fragment {
     private BackgroundMusicService backgroundMusicService;
     private boolean isBound = false;
 
-    private boolean isPlaying = false;
-
     //setText needs a variable to work
     private String currentTrack = "Current Track: ";
 
+    // manage connection between fragment to music service
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -61,10 +61,13 @@ public class MusicFragment extends Fragment {
         TextView textView = binding.textMusic;
         loginViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-
+        // bind service to music service
         getActivity().bindService(new Intent(getActivity(), BackgroundMusicService.class), serviceConnection, Context.BIND_AUTO_CREATE);
 
-        //updateButtons();
+        // initial button setup
+        binding.stopBtn.setEnabled(false);
+        binding.pauseBtn.setEnabled(false);
+        binding.previousBtn.setEnabled(false);
 
         binding.playBtn.setOnClickListener(this::onClickPlay);
         binding.stopBtn.setOnClickListener(this::onClickStop);
@@ -79,6 +82,7 @@ public class MusicFragment extends Fragment {
         if ( backgroundMusicService != null ) {
             backgroundMusicService.playSong();
             binding.textMusic.setText(currentTrack.concat(Integer.toString(backgroundMusicService.getCurrentSong())));
+            updateButtons();
         }
     }
 
@@ -86,6 +90,7 @@ public class MusicFragment extends Fragment {
         if ( backgroundMusicService != null ) {
             backgroundMusicService.pauseSong();
             binding.textMusic.setText("Paused");
+            updateButtons();
         }
     }
 
@@ -93,14 +98,15 @@ public class MusicFragment extends Fragment {
         if ( backgroundMusicService != null ) {
             backgroundMusicService.stopSong();
             binding.textMusic.setText("Stopped");
+            updateButtons();
         }
     }
-
 
     public void onClickPrevious(View view) {
         if ( backgroundMusicService != null ) {
             backgroundMusicService.previousSong();
             binding.textMusic.setText(Integer.toString(backgroundMusicService.getCurrentSong()));
+            updateButtons();
         }
     }
 
@@ -108,13 +114,18 @@ public class MusicFragment extends Fragment {
         if ( backgroundMusicService != null ) {
             backgroundMusicService.nextSong();
             binding.textMusic.setText(Integer.toString(backgroundMusicService.getCurrentSong()));
+            updateButtons();
         }
     }
 
 
     private void updateButtons() {
-        binding.playBtn.setEnabled(!isPlaying);
-        binding.stopBtn.setEnabled(isPlaying);
+        if ( backgroundMusicService != null ) {
+            binding.playBtn.setEnabled(!backgroundMusicService.isPlaying());
+            binding.pauseBtn.setEnabled(backgroundMusicService.isPlaying());
+            binding.previousBtn.setEnabled(!backgroundMusicService.isMinMusic());
+            binding.nextBtn.setEnabled(!backgroundMusicService.isMaxMusic());
+        }
     }
 
     @Override

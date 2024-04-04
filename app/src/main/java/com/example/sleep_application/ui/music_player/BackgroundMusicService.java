@@ -29,13 +29,16 @@ import java.util.List;
 
 public class BackgroundMusicService extends Service implements MediaPlayer.OnCompletionListener  {
 
+
+    // for service notification
     private static final String CHANNEL_ID = "bg_channel_id";
     private static final String CHANNEL_NAME = "BG_Channel_Name";
     private static final int IMPORTANCE = NotificationManager.IMPORTANCE_DEFAULT;
     private static final int NOTIFICATION_ID = 123456;
-    private MediaPlayer mediaPlayer;
 
-    // value for tracking the current track in track list
+
+    // for music control
+    private MediaPlayer mediaPlayer;
     private Integer currentMusicNumber = 0;
     final private int minMusicNumber = 0;
     final private int maxMusicNumber = 6;
@@ -54,6 +57,7 @@ public class BackgroundMusicService extends Service implements MediaPlayer.OnCom
         }
     }
 
+    // methods to get fragments/activity to control this service
 
     public void playSong() {
         if (!mediaPlayer.isPlaying()) {
@@ -95,6 +99,8 @@ public class BackgroundMusicService extends Service implements MediaPlayer.OnCom
     public int getCurrentSong() {
         return currentMusicNumber;
     }
+    public boolean isMinMusic() { return currentMusicNumber == minMusicNumber; }
+    public boolean isMaxMusic() { return currentMusicNumber == maxMusicNumber; }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
@@ -127,33 +133,32 @@ public class BackgroundMusicService extends Service implements MediaPlayer.OnCom
         return START_NOT_STICKY;
     }
 
-    private void createNotificationChannel() {
+    private void createNotificationChannel() {  // create notification channel for android 8 above things
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, IMPORTANCE);
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
     }
 
-    private void showNotification(String title, String message) {
+    private void showNotification(String title, String message) { // the name said it all
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(R.drawable.ic_menu_slideshow)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
-    public void onDestroy() {
+    public void onDestroy() { // release when service got destroy for whatever reason
         super.onDestroy();
+        showNotification("BG_Service", "Service destroyed.");
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
         }
     }
 
-    public void onTaskRemoved(Intent intent) {
+    public void onTaskRemoved(Intent intent) { // release when task removed
         super.onTaskRemoved(intent);
         showNotification("BG_Service", "Task removed.");
         if (mediaPlayer != null) {
