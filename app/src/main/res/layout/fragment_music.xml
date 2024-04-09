@@ -10,8 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ListView
+            android:id="@+id/music_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            tools:layout_editor_absoluteY="100dp" />
 
         <TextView
             android:id="@+id/text_music"
