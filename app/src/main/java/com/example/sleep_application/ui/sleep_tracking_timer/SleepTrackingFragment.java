@@ -1,8 +1,11 @@
 package com.example.sleep_application.ui.sleep_tracking_timer;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +24,9 @@ import com.google.android.material.snackbar.Snackbar;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class SleepTrackingFragment extends Fragment {
-
-    List<Integer> sleepTimes = new ArrayList<>();
 
     // Number of seconds displayed
     // on the stopwatch.
@@ -112,15 +111,20 @@ public class SleepTrackingFragment extends Fragment {
     }
 
     public void onClickSave(View view) {
-        sleepTimes.add(seconds);
-        seconds = 0;
 
-        SleepEntity sleepEntity = new SleepEntity(LocalDate.now(), LocalTime.now(), seconds);
+        // TODO : condition to check not logged in?
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String email = sharedPref.getString("login_email", "No email");
 
+        SleepEntity sleepEntity = new SleepEntity(email, LocalDate.now(), LocalTime.now(), seconds);
+        Log.d("SleepEntity", sleepEntity.toString());
         dbService.sleepDao().insertAll(sleepEntity);
 
         Snackbar.make(view, new StringBuffer("Sleep Saved"), Snackbar.LENGTH_SHORT).show();
 
+        seconds = 0;
+
+        Log.d("SleepEntityDB", dbService.sleepDao().getAll().toString());
         view.setVisibility(View.INVISIBLE);
     }
 

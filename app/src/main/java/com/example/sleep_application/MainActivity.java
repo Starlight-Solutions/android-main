@@ -1,13 +1,22 @@
 package com.example.sleep_application;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.Toast
+import android.view.View;
+import android.widget.TextView;
 
+import com.example.sleep_application.ui.music_player.BackgroundMusicService;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sleep_application.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -42,7 +51,33 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        drawer.addDrawerListener(this);
+
+        Intent serviceIntent = new Intent(this, BackgroundMusicService.class);
+        startService(serviceIntent);
+
     }
+
+    @Override   // for interface
+    public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {    }
+
+    @Override
+    public void onDrawerOpened(@NonNull View drawerView) {
+        // set current user
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        View headerView = binding.navView.getHeaderView(0);
+        TextView headerUsername = (TextView) headerView.findViewById(R.id.menu_username);
+        TextView headerEmail = (TextView) headerView.findViewById(R.id.menu_email);
+        headerUsername.setText(sharedPref.getString("login_username", "Not logged in"));
+        headerEmail.setText(sharedPref.getString("login_email", "No email"));
+    }
+
+    @Override // for interface
+    public void onDrawerClosed(@NonNull View drawerView) {    }
+
+    @Override // for interface
+    public void onDrawerStateChanged(int newState) {    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
