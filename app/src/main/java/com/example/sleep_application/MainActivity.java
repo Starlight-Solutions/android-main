@@ -1,6 +1,7 @@
 package com.example.sleep_application;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.sleep_application.ui.music_player.BackgroundMusicService;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         NavigationUI.setupWithNavController(navigationView, navController);
 
         drawer.addDrawerListener(this);
+
+        Intent serviceIntent = new Intent(this, BackgroundMusicService.class);
+        startService(serviceIntent);
+
     }
 
     @Override   // for interface
