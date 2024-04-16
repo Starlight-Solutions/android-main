@@ -4,27 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.sleep_application.ui.music_player.BackgroundMusicService;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sleep_application.databinding.ActivityMainBinding;
+import com.example.sleep_application.ui.music_player.BackgroundMusicService;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
