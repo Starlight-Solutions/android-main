@@ -2,25 +2,30 @@ package com.example.sleep_application.ui.manual_log;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.room.Room;
 
-import com.example.sleep_application.MainActivity;
 import com.example.sleep_application.R;
-import com.example.sleep_application.ui.manual_log.ManualLogViewModel;
+import com.example.sleep_application.database.LocalSqlDbService;
+import com.example.sleep_application.database.entity.SleepEntity;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Locale;
 
 public class ManualLogFragment extends Fragment {
@@ -90,7 +95,31 @@ public class ManualLogFragment extends Fragment {
         timePickerDialog.show();
     }
 
-    public void saveData(View view){
+    public void saveData(View view) {
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        String email = sharedPref.getString("login_email", "No email");
+
+        LocalTime endTime = LocalTime.parse(binding.manualLogEndTime.getText());
+        LocalTime startTime = LocalTime.parse(binding.manualLogStartTime.getText());
+
+        LocalDateTime endDateTime = LocalDateTime.of(LocalDate.now(), endTime);
+        LocalDateTime startDateTime;
+
+        if (startTime.isAfter(endTime)) {
+            startDateTime = LocalDateTime.of(LocalDate.now().minusDays(1), startTime);
+        } else {
+            startDateTime = LocalDateTime.of(LocalDate.now(), startTime);
+        }
+
+        long seconds = Duration.between(startDateTime, endDateTime).toMillis() / 1000;
+
+        SleepEntity sleepEntity = new SleepEntity(email, LocalDate.now(), endTime, seconds);
+
+        Room.databaseBuilder(requireActivity().getApplicationContext(), LocalSqlDbService.class, "appDb")
+                .allowMainThreadQueries().build().sleepDao().insertAll(sleepEntity);
+
+
         Snackbar.make(view, new StringBuffer("Sleep Saved"), Snackbar.LENGTH_SHORT).show();
     }
 
