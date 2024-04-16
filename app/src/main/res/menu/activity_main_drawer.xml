@@ -17,9 +17,9 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
         <item
-            android:id="@+id/nav_login"
-            android:icon="@android:drawable/ic_menu_myplaces"
-            android:title="@string/menu_login" />
+            android:id="@+id/nav_manual_log"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="@string/menu_manual_log" />
         <item
             android:id="@+id/nav_music"
             android:icon="@android:drawable/stat_sys_headset"
@@ -28,6 +28,11 @@
             android:id="@+id/nav_medication"
             android:icon="@android:drawable/ic_lock_idle_alarm"
             android:title="@string/menu_medication" />
+
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_login" />
 
     </group>
 </menu>

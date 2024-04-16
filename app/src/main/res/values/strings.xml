@@ -10,6 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_sleep_tracking">Sleep Tracking</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_manual_log">Manual Log</string>
     <string name="menu_login">Login</string>
     <string name="menu_music">Music</string>
     <string name="menu_medication">Medication</string>
@@ -18,6 +19,10 @@
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
     <string name="save">Save</string>
+
+    <string name="insert_start_time">Insert Start Time</string>
+    <string name="insert_end_time">Insert End Time</string>
+    <string name="select_time">Select Time</string>
 
     <string name="login_username">Username</string>
     <string name="login_email">Email</string>
