@@ -17,9 +17,16 @@ import com.example.sleep_application.database.LocalSqlDbService;
 import com.example.sleep_application.database.entity.SleepEntity;
 import com.example.sleep_application.databinding.FragmentHomeBinding;
 import com.example.sleep_application.ui.home.sleeprecyclerview.SleepEntityAdapter;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -52,6 +59,35 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(sleepEntityAdapter);
+
+        BarChart barChart = binding.chart1;
+
+        List<BarEntry> barEntryList = new ArrayList<>();
+        List<SleepEntity> reverseSleepList = (List<SleepEntity>) sleepData.clone();
+        Collections.reverse(reverseSleepList);
+
+        int count = 0;
+        LocalDate date = null;
+        for (SleepEntity sleepEntity : reverseSleepList) {
+            if (date != null && sleepEntity.getDate().isEqual(date)) {
+                BarEntry barEntry = barEntryList.get(barEntryList.size() - 1);
+                barEntry.setY(barEntry.getY() + ((float) sleepEntity.getDuration()) / 60 / 60);
+            } else {
+                date = sleepEntity.getDate();
+                barEntryList.add(new BarEntry(count, ((float) sleepEntity.getDuration()) / 60 / 60));
+                count++;
+            }
+        }
+
+        BarDataSet set = new BarDataSet(barEntryList, "SleepDataSet");
+
+        BarData data = new BarData(set);
+        data.setBarWidth(0.8f); // set custom bar width
+        barChart.setData(data);
+        barChart.setFitBars(true); // make the x-axis fit exactly all bars
+        barChart.invalidate(); // refresh
+        barChart.setDrawValueAboveBar(false);
+        barChart.setDrawGridBackground(false);
 
         return root;
     }
