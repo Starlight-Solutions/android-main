@@ -131,8 +131,7 @@ public class MusicFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (isBound) {
-            getActivity().unbindService(serviceConnection);
-        }
+        // do not kill service
+        // if (isBound) { getActivity().unbindService(serviceConnection); }
     }
 }
