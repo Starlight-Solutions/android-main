@@ -18,15 +18,21 @@ import com.example.sleep_application.database.entity.SleepEntity;
 import com.example.sleep_application.databinding.FragmentHomeBinding;
 import com.example.sleep_application.ui.home.sleeprecyclerview.SleepEntityAdapter;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment {
 
@@ -74,7 +80,7 @@ public class HomeFragment extends Fragment {
                 barEntry.setY(barEntry.getY() + ((float) sleepEntity.getDuration()) / 60 / 60);
             } else {
                 date = sleepEntity.getDate();
-                barEntryList.add(new BarEntry(count, ((float) sleepEntity.getDuration()) / 60 / 60));
+                barEntryList.add(new BarEntry(count, ((float) sleepEntity.getDuration()) / 60 / 60, date));
                 count++;
             }
         }
@@ -83,13 +89,42 @@ public class HomeFragment extends Fragment {
 
         BarData data = new BarData(set);
         data.setBarWidth(0.8f); // set custom bar width
+        data.setValueFormatter(new BarchartFormatter(set));
         barChart.setData(data);
         barChart.setFitBars(true); // make the x-axis fit exactly all bars
-        barChart.invalidate(); // refresh
+
         barChart.setDrawValueAboveBar(false);
         barChart.setDrawGridBackground(false);
+        barChart.setDescription(new Description());
 
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(10f);
+        xAxis.setLabelRotationAngle(60);
+        xAxis.setValueFormatter(new BarchartFormatter(set));
+        barChart.invalidate(); // refresh
         return root;
+    }
+
+    private static class BarchartFormatter extends ValueFormatter {
+        BarDataSet barDataSet;
+
+        public BarchartFormatter(BarDataSet barDataSet) {
+            this.barDataSet = barDataSet;
+        }
+
+        @Override
+        public String getBarLabel(BarEntry barEntry) {
+            return String.format("%.2f Hours", barEntry.getY());
+
+        }
+
+        @Override
+        public String getAxisLabel(float value, AxisBase axis) {
+            return barDataSet.getValues().stream()
+                    .map((barEntry -> ((LocalDate) barEntry.getData()).format(DateTimeFormatter.ISO_LOCAL_DATE)))
+                    .collect(Collectors.joining());
+        }
     }
 
     @Override
