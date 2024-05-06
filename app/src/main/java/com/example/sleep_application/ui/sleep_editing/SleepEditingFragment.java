@@ -25,7 +25,7 @@ public class SleepEditingFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
 
-        return inflater.inflate(R.layout.fragment_sleep_editing, container, false);
+        return inflater.inflate(R.layout.fragment_manual_log, container, false);
     }
 
     @Override
