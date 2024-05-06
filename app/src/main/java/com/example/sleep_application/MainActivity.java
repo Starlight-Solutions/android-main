@@ -15,14 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.GravityCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sleep_application.databinding.ActivityMainBinding;
+import com.example.sleep_application.ui.music_player.BackgroundMusicService;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
 
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_sleep_tracking, R.id.nav_slideshow, R.id.nav_login,
+                R.id.nav_home, R.id.nav_sleep_tracking, R.id.nav_login,
                 R.id.nav_music, R.id.nav_medication, R.id.nav_tips)
                 .setOpenableLayout(drawer)
                 .build();

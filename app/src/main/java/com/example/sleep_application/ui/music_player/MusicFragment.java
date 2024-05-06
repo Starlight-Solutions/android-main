@@ -1,30 +1,21 @@
 package com.example.sleep_application.ui.music_player;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.sleep_application.MainActivity;
-import com.example.sleep_application.R;
-import com.example.sleep_application.databinding.FragmentMusicBinding;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.sleep_application.databinding.FragmentMusicBinding;
 
 public class MusicFragment extends Fragment {
 
@@ -69,7 +60,7 @@ public class MusicFragment extends Fragment {
         binding.pauseBtn.setEnabled(false);
         binding.previousBtn.setEnabled(false);
 
-        binding.playBtn.setOnClickListener(this::onClickPlay);
+        binding.newPlayButton.setOnClickListener(this::onClickPlay);
         binding.stopBtn.setOnClickListener(this::onClickStop);
         binding.pauseBtn.setOnClickListener(this::onClickPause);
         binding.previousBtn.setOnClickListener(this::onClickPrevious);
@@ -121,7 +112,7 @@ public class MusicFragment extends Fragment {
 
     private void updateButtons() {
         if ( backgroundMusicService != null ) {
-            binding.playBtn.setEnabled(!backgroundMusicService.isPlaying());
+            binding.newPlayButton.setEnabled(!backgroundMusicService.isPlaying());
             binding.pauseBtn.setEnabled(backgroundMusicService.isPlaying());
             binding.stopBtn.setEnabled(backgroundMusicService.isPlaying());
             binding.previousBtn.setEnabled(!backgroundMusicService.isMinMusic());
