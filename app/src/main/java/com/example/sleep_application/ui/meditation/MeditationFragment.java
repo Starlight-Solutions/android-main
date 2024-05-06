@@ -1,15 +1,9 @@
 package com.example.sleep_application.ui.meditation;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -21,13 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.sleep_application.R;
 import com.example.sleep_application.databinding.FragmentMeditationBinding;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class MeditationFragment extends Fragment {
@@ -35,7 +30,7 @@ public class MeditationFragment extends Fragment {
     private @NonNull FragmentMeditationBinding binding;
 
     // img set for different sessions types
-    private static final int[] BREATH_IMG = {R.drawable.breath1, R.drawable.breath2, R.drawable.breath3, R.drawable.breath4};
+    private static final int[] BREATH_IMG = {R.drawable.breath1, R.drawable.breath2, R.drawable.breath3};
     private static final int[] STRETCH_IMG = {R.drawable.stretch1, R.drawable.stretch2, R.drawable.stretch3, R.drawable.stretch4};
     private static final int[] AEROBIC_IMG = {R.drawable.aerobic1, R.drawable.aerobic2, R.drawable.aerobic3, R.drawable.aerobic4};
     private static final int SLIDE_DURATION = 3000; // milliseconds
