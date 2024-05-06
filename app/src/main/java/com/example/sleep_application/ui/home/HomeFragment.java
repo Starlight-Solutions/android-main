@@ -1,5 +1,7 @@
 package com.example.sleep_application.ui.home;
 
+import static java.lang.String.format;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment {
 
@@ -95,7 +96,9 @@ public class HomeFragment extends Fragment {
 
         barChart.setDrawValueAboveBar(false);
         barChart.setDrawGridBackground(false);
-        barChart.setDescription(new Description());
+        Description emptyDescription = new Description();
+        emptyDescription.setText("");
+        barChart.setDescription(emptyDescription);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -115,15 +118,15 @@ public class HomeFragment extends Fragment {
 
         @Override
         public String getBarLabel(BarEntry barEntry) {
-            return String.format("%.2f Hours", barEntry.getY());
+            return format("%.2f Hours", barEntry.getY());
 
         }
 
         @Override
         public String getAxisLabel(float value, AxisBase axis) {
-            return barDataSet.getValues().stream()
-                    .map((barEntry -> ((LocalDate) barEntry.getData()).format(DateTimeFormatter.ISO_LOCAL_DATE)))
-                    .collect(Collectors.joining());
+            return ((LocalDate) barDataSet.getValues().get((int) value)
+                    .getData())
+                    .format(DateTimeFormatter.ISO_LOCAL_DATE);
         }
     }
 
