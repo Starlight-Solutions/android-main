@@ -39,4 +39,11 @@
         android:name="com.example.sleep_application.ui.medication.MedicationFragment"
         android:label="Medication"
         tools:layout="@layout/fragment_medication" />
+
+    <fragment
+        android:id="@+id/nav_tips"
+        android:name="com.example.sleep_application.ui.sleep_tips.TipsFragment"
+        android:label="Sleep Tips"
+        tools:layout="@layout/fragment_tips" />
+
 </navigation>

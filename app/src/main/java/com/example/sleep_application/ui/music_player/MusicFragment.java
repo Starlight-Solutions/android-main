@@ -114,6 +114,7 @@ public class MusicFragment extends Fragment {
         if ( backgroundMusicService != null ) {
             binding.newPlayButton.setEnabled(!backgroundMusicService.isPlaying());
             binding.pauseBtn.setEnabled(backgroundMusicService.isPlaying());
+            binding.stopBtn.setEnabled(backgroundMusicService.isPlaying());
             binding.previousBtn.setEnabled(!backgroundMusicService.isMinMusic());
             binding.nextBtn.setEnabled(!backgroundMusicService.isMaxMusic());
         }
@@ -122,8 +123,7 @@ public class MusicFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (isBound) {
-            getActivity().unbindService(serviceConnection);
-        }
+        // do not kill service
+        // if (isBound) { getActivity().unbindService(serviceConnection); }
     }
 }
