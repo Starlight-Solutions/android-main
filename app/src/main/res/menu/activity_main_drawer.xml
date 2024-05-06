@@ -25,9 +25,9 @@
             android:icon="@android:drawable/stat_sys_headset"
             android:title="@string/menu_music" />
         <item
-            android:id="@+id/nav_medication"
+            android:id="@+id/nav_meditation"
             android:icon="@android:drawable/ic_lock_idle_alarm"
-            android:title="@string/menu_medication" />
+            android:title="@string/menu_meditation" />
 
         <item
             android:id="@+id/nav_login"

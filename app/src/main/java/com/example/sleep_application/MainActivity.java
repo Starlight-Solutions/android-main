@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_sleep_tracking, R.id.nav_login,
-                R.id.nav_music, R.id.nav_medication, R.id.nav_tips)
+                R.id.nav_music, R.id.nav_meditation, R.id.nav_tips)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

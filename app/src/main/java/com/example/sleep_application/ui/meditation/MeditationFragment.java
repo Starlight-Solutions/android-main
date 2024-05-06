@@ -1,4 +1,4 @@
-package com.example.sleep_application.ui.medication;
+package com.example.sleep_application.ui.meditation;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sleep_application.R;
-import com.example.sleep_application.databinding.FragmentMedicationBinding;
+import com.example.sleep_application.databinding.FragmentMeditationBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Instant;
@@ -30,14 +30,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MedicationFragment extends Fragment {
+public class MeditationFragment extends Fragment {
 
-    private @NonNull FragmentMedicationBinding binding;
+    private @NonNull FragmentMeditationBinding binding;
 
     // img set for different sessions types
-    private static final int[] BREATH_IMG = {R.drawable.img1, R.drawable.img1, R.drawable.img1};
-    private static final int[] STRETCH_IMG = {R.drawable.img2, R.drawable.img2, R.drawable.img2};
-    private static final int[] AEROBIC_IMG = {R.drawable.img3, R.drawable.img3, R.drawable.img3};
+    private static final int[] BREATH_IMG = {R.drawable.breath1, R.drawable.breath2, R.drawable.breath3, R.drawable.breath4};
+    private static final int[] STRETCH_IMG = {R.drawable.stretch1, R.drawable.stretch2, R.drawable.stretch3, R.drawable.stretch4};
+    private static final int[] AEROBIC_IMG = {R.drawable.aerobic1, R.drawable.aerobic2, R.drawable.aerobic3, R.drawable.aerobic4};
     private static final int SLIDE_DURATION = 3000; // milliseconds
 
     private int med_seconds = 60;
@@ -51,14 +51,14 @@ public class MedicationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MedicationViewModel medicationViewModel =
-                new ViewModelProvider(this).get(MedicationViewModel.class);
+        MeditationViewModel meditationViewModel =
+                new ViewModelProvider(this).get(MeditationViewModel.class);
 
-        binding = FragmentMedicationBinding.inflate(inflater, container, false);
+        binding = FragmentMeditationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textMedTimer;
-        medicationViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        meditationViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         // set default session length for 5 mins
         binding.inputMins.setText("5");
@@ -67,14 +67,14 @@ public class MedicationFragment extends Fragment {
         builder = new AlertDialog.Builder(getActivity());
 
         // setup dropdown menu
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_medication, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_meditation, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.medicationSpinner.setAdapter((adapter));
+        binding.meditationSpinner.setAdapter((adapter));
 
         // guide slideshow img
-        binding.medicationSlideshow.setInAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_right));
-        binding.medicationSlideshow.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_left));
-        binding.medicationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.meditationSlideshow.setInAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_right));
+        binding.meditationSlideshow.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_left));
+        binding.meditationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switchImgSet(position);
@@ -86,7 +86,7 @@ public class MedicationFragment extends Fragment {
             }
         });
         binding.medStartBtn.setOnClickListener(this::onClickStart);
-        startSlideShow(); // scroll through medication guide img
+        startSlideShow(); // scroll through meditation guide img
 
         refreshMedTimer();
 
@@ -108,7 +108,7 @@ public class MedicationFragment extends Fragment {
         med_handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (binding != null) { binding.medicationSlideshow.showNext(); }
+                if (binding != null) { binding.meditationSlideshow.showNext(); }
                 med_handler.postDelayed(this, SLIDE_DURATION);
             }
         }, SLIDE_DURATION);
@@ -175,7 +175,7 @@ public class MedicationFragment extends Fragment {
 
     //switch img set according to each session type
     private void switchImgSet(Integer position){
-        binding.medicationSlideshow.removeAllViews();
+        binding.meditationSlideshow.removeAllViews();
         int[] IMG_SET = {};
 
         switch (position) {
@@ -193,7 +193,7 @@ public class MedicationFragment extends Fragment {
         for (int imageId : IMG_SET) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setImageResource(imageId);
-            binding.medicationSlideshow.addView(imageView);
+            binding.meditationSlideshow.addView(imageView);
         }
     }
 

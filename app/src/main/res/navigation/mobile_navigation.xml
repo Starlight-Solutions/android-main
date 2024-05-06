@@ -35,10 +35,10 @@
         tools:layout="@layout/fragment_music" />
 
     <fragment
-        android:id="@+id/nav_medication"
-        android:name="com.example.sleep_application.ui.medication.MedicationFragment"
-        android:label="Medication"
-        tools:layout="@layout/fragment_medication" />
+        android:id="@+id/nav_meditation"
+        android:name="com.example.sleep_application.ui.meditation.MeditationFragment"
+        android:label="Meditation"
+        tools:layout="@layout/fragment_meditation" />
 
     <fragment
         android:id="@+id/nav_tips"
