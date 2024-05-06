@@ -4,11 +4,14 @@ import static java.lang.String.format;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,6 +41,36 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+
+    public static int getThemeTextColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(com.google.android.material.R.attr.colorOnSecondary, typedValue, true);
+        @ColorInt int color = typedValue.data;
+        return color;
+    }
+
+
+    private static class BarchartFormatter extends ValueFormatter {
+        BarDataSet barDataSet;
+
+        public BarchartFormatter(BarDataSet barDataSet) {
+            this.barDataSet = barDataSet;
+        }
+
+        @Override
+        public String getBarLabel(BarEntry barEntry) {
+            return format("%.2f Hours", barEntry.getY());
+
+        }
+
+        @Override
+        public String getAxisLabel(float value, AxisBase axis) {
+            return ((LocalDate) barDataSet.getValues().get((int) value)
+                    .getData())
+                    .format(DateTimeFormatter.ofPattern("MM/dd"));
+        }
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -96,6 +129,14 @@ public class HomeFragment extends Fragment {
         barChart.setData(data);
         barChart.setFitBars(true); // make the x-axis fit exactly all bars
 
+        int color = getThemeTextColor(requireContext());
+        barChart.getData().setValueTextColor(color);
+        barChart.getData().setValueTextColor(color);
+        barChart.getXAxis().setTextColor(color);
+        barChart.getAxisLeft().setTextColor(color);
+        barChart.getAxisRight().setTextColor(color);
+        barChart.getLegend().setTextColor(color);
+
         barChart.setDrawValueAboveBar(false);
         barChart.setDrawGridBackground(false);
         Description emptyDescription = new Description();
@@ -113,28 +154,6 @@ public class HomeFragment extends Fragment {
         xAxis.setValueFormatter(new BarchartFormatter(set));
         barChart.invalidate(); // refresh
         return root;
-    }
-
-
-    private static class BarchartFormatter extends ValueFormatter {
-        BarDataSet barDataSet;
-
-        public BarchartFormatter(BarDataSet barDataSet) {
-            this.barDataSet = barDataSet;
-        }
-
-        @Override
-        public String getBarLabel(BarEntry barEntry) {
-            return format("%.2f Hours", barEntry.getY());
-
-        }
-
-        @Override
-        public String getAxisLabel(float value, AxisBase axis) {
-            return ((LocalDate) barDataSet.getValues().get((int) value)
-                    .getData())
-                    .format(DateTimeFormatter.ofPattern("MM/dd"));
-        }
     }
 
     @Override
