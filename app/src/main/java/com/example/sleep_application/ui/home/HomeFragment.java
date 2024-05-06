@@ -67,6 +67,8 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(sleepEntityAdapter);
 
+        sleepEntityAdapter.notifyDataSetChanged();
+
         BarChart barChart = binding.chart1;
 
         List<BarEntry> barEntryList = new ArrayList<>();
@@ -100,14 +102,19 @@ public class HomeFragment extends Fragment {
         emptyDescription.setText("");
         barChart.setDescription(emptyDescription);
 
+        barChart.getAxisLeft().setAxisMinimum(0);
+        barChart.getAxisLeft().setDrawGridLines(false);
+
         XAxis xAxis = barChart.getXAxis();
+        xAxis.setDrawGridLines(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(10f);
-        xAxis.setLabelRotationAngle(60);
+        xAxis.setLabelRotationAngle(0);
         xAxis.setValueFormatter(new BarchartFormatter(set));
         barChart.invalidate(); // refresh
         return root;
     }
+
 
     private static class BarchartFormatter extends ValueFormatter {
         BarDataSet barDataSet;
@@ -126,7 +133,7 @@ public class HomeFragment extends Fragment {
         public String getAxisLabel(float value, AxisBase axis) {
             return ((LocalDate) barDataSet.getValues().get((int) value)
                     .getData())
-                    .format(DateTimeFormatter.ISO_LOCAL_DATE);
+                    .format(DateTimeFormatter.ofPattern("MM/dd"));
         }
     }
 
