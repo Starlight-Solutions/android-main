@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.medication.MedicationFragment">
+    tools:context=".ui.meditation.MeditationFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ViewFlipper
-            android:id="@+id/medication_slideshow"
+            android:id="@+id/meditation_slideshow"
             android:layout_width="match_parent"
             android:layout_height="300dp" />
 
@@ -39,7 +39,7 @@
             android:orientation="horizontal">
 
             <Spinner
-                android:id="@+id/medication_spinner"
+                android:id="@+id/meditation_spinner"
                 android:layout_width="273dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />

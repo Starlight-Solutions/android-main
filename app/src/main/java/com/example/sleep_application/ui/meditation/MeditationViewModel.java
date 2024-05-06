@@ -1,13 +1,13 @@
-package com.example.sleep_application.ui.medication;
+package com.example.sleep_application.ui.meditation;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class MedicationViewModel extends ViewModel {
+public class MeditationViewModel extends ViewModel {
     private final MutableLiveData<String> timerText;
 
-    public MedicationViewModel() {
+    public MeditationViewModel() {
         timerText = new MutableLiveData<>();
         timerText.setValue("TIMER");
     }
