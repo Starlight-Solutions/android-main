@@ -123,6 +123,7 @@ public class MusicFragment extends Fragment {
         if ( backgroundMusicService != null ) {
             binding.playBtn.setEnabled(!backgroundMusicService.isPlaying());
             binding.pauseBtn.setEnabled(backgroundMusicService.isPlaying());
+            binding.stopBtn.setEnabled(backgroundMusicService.isPlaying());
             binding.previousBtn.setEnabled(!backgroundMusicService.isMinMusic());
             binding.nextBtn.setEnabled(!backgroundMusicService.isMaxMusic());
         }
