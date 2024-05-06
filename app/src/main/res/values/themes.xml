@@ -22,4 +22,9 @@
     <style name="Theme.Sleep_application.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Sleep_application.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ScreenBackground"><item name="android:background">@color/white</item></style>
+    <style name="CardBackground"><item name="android:background">@color/white</item></style>
+    <style name="TextColor"><item name="android:textColor">@color/lavender</item></style>
+
 </resources>
