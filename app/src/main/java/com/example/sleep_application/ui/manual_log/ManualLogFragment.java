@@ -1,6 +1,7 @@
 package com.example.sleep_application.ui.manual_log;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -30,7 +31,7 @@ import java.util.Locale;
 
 public class ManualLogFragment extends Fragment {
 
-    int hour, minute;
+    int hour, minute, month, day;
     private com.example.sleep_application.databinding.FragmentManualLogBinding binding;
 
 
@@ -43,6 +44,9 @@ public class ManualLogFragment extends Fragment {
         View root = binding.getRoot();
 
         Button startButton = root.findViewById(R.id.manual_log_start);
+
+        month = LocalDate.now().getMonthValue();
+        day = LocalDate.now().getDayOfMonth();
         startButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -57,6 +61,14 @@ public class ManualLogFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 popTimePicker(view, binding.manualLogEndTime);
+            }
+        });
+
+        binding.manualLogDateBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                popDatePicker(view, binding.manualLogDate);
             }
         });
 
@@ -77,15 +89,10 @@ public class ManualLogFragment extends Fragment {
     }
 
     public void popTimePicker(View view, TextView time) {
-        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener()
-        {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute)
-            {
-                hour = selectedHour;
-                minute = selectedMinute;
-                time.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
-            }
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = (timePicker, selectedHour, selectedMinute) -> {
+            hour = selectedHour;
+            minute = selectedMinute;
+            time.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
         };
 
         int style = AlertDialog.BUTTON_NEGATIVE;
@@ -93,6 +100,20 @@ public class ManualLogFragment extends Fragment {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this.getContext(), 16973939, onTimeSetListener, hour, minute, true);
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
+    }
+
+    public void popDatePicker(View view, TextView date) {
+        DatePickerDialog.OnDateSetListener onDateSetListener = (datePicker, year, month, day) -> {
+            this.month = month;
+            this.day = day;
+            date.setText(String.format(Locale.getDefault(), "%d/%d", month, day));
+        };
+
+        int style = AlertDialog.BUTTON_NEGATIVE;
+        // The themeResId is the ID that gives us the "spinner style" choice of time
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this.getContext(), 16973939, onDateSetListener, LocalDate.now().getYear(), month, day);
+        datePickerDialog.setTitle("Select Date");
+        datePickerDialog.show();
     }
 
     public void saveData(View view) {
@@ -114,7 +135,7 @@ public class ManualLogFragment extends Fragment {
 
         long seconds = Duration.between(startDateTime, endDateTime).toMillis() / 1000;
 
-        SleepEntity sleepEntity = new SleepEntity(email, LocalDate.now(), endTime, seconds);
+        SleepEntity sleepEntity = new SleepEntity(email, LocalDate.of(LocalDate.now().getYear(), month, day), endTime, seconds);
 
         Room.databaseBuilder(requireActivity().getApplicationContext(), LocalSqlDbService.class, "appDb")
                 .allowMainThreadQueries().build().sleepDao().insertAll(sleepEntity);
